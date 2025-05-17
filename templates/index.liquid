@@ -1,0 +1,17 @@
+{%- comment -%}
+Show a greeting based on current hour:
+- Morning (before 12)
+- Afternoon (12–17)
+- Evening (after 18)
+{%- endcomment -%}
+{% assign hour = 'now' | date: "%H" | plus: 0 %}
+
+<div class="greeting">
+  {% if hour < 12 %}
+    <h2>Good Morning, Shopper!</h2>
+  {% elsif hour < 18 %}
+    <h2>Good Afternoon, Shopper!</h2>
+  {% else %}
+    <h2>Good Evening, Shopper!</h2>
+  {% endif %}
+</div>
