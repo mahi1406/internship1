@@ -1,0 +1,37 @@
+{%- comment -%}
+Determine cart total in ₹ from paise
+Use this to:
+- Recommend product from Accessories (< ₹1000)
+- Recommend from Premium (≥ ₹1000)
+- Show free shipping message
+{%- endcomment -%}
+{% assign cart_total = cart.total_price | divided_by: 100 %}
+
+<!-- Upsell Section -->
+<div class="upsell">
+  <h3>You may also like</h3>
+  {% if cart_total < 1000 %}
+    {% assign upsell = collections['Accessories'].products | sample %}
+  {% else %}
+    {% assign upsell = collections['Premium'].products | sample %}
+  {% endif %}
+
+  {% if upsell %}
+    <div class="product-card">
+      <a href="{{ upsell.url }}">
+        <img src="{{ upsell.featured_image | img_url: 'medium' }}" alt="{{ upsell.title }}">
+        <p>{{ upsell.title }}</p>
+        <p>{{ upsell.price | money }}</p>
+      </a>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Free Shipping Message -->
+<div class="free-shipping-message">
+  {% if cart_total < 500 %}
+    <p>Spend ₹{{ 500 | minus: cart_total }} more to get free shipping!</p>
+  {% else %}
+    <p>You’ve unlocked free shipping!</p>
+  {% endif %}
+</div>
